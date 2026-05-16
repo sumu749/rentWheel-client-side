@@ -1,9 +1,24 @@
-import React from "react";
+import HeroBanner from "../components/HeroBanner";
+import SearchSection from "../components/SearchSection";
+import FeaturedCars from "../components/FeaturedCars";
+import WhyChooseUs from "../components/WhyChooseUs";
+import TopRatedCars from "../components/TopRatedCars";
+import Testimonials from "../components/Testimonials";
 
 const Home = () => {
     return (
         <div>
-            <h1>Home</h1>
+            <HeroBanner />
+
+            <SearchSection />
+
+            <FeaturedCars />
+
+            <WhyChooseUs />
+
+            <TopRatedCars />
+
+            <Testimonials />
         </div>
     );
 };
