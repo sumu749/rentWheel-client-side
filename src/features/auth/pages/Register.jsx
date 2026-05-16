@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { FaGoogle, FaCarSide } from "react-icons/fa";
+import { FaCar, FaGoogle } from "react-icons/fa";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -75,7 +75,7 @@ const Register = () => {
                 {/* Logo */}
                 <div className="text-center mb-8">
                     <div className="w-20 h-20 bg-orange-500 rounded-2xl flex items-center justify-center mx-auto">
-                        <FaCarSide className="text-white text-4xl" />
+                        <FaCar className="text-white w-6 h-6" />
                     </div>
 
                     <h1 className="text-4xl font-black text-white mt-5">
@@ -99,7 +99,7 @@ const Register = () => {
                             type="text"
                             name="name"
                             required
-                            placeholder="John Doe"
+                            placeholder="Your Name"
                             className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-orange-500 text-white"
                         />
                     </div>
