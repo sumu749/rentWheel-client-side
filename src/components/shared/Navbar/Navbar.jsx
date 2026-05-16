@@ -1,5 +1,6 @@
-import { Link, NavLink } from "react-router";
-import { Menu, X, CarFront, ChevronDown } from "lucide-react";
+import { Link, NavLink } from "react-router-dom";
+import { FiMenu, FiX, FiChevronDown } from "react-icons/fi";
+import { FaCar } from "react-icons/fa";
 import { useState } from "react";
 import useAuth from "../../../features/auth/hooks/useAuth";
 
@@ -95,7 +96,7 @@ const Navbar = () => {
                     {/* Logo */}
                     <Link to="/" className="flex items-center gap-2">
                         <div className="bg-orange-500 p-2 rounded-xl">
-                            <CarFront className="text-white w-6 h-6" />
+                            <FaCar className="text-white w-6 h-6" />
                         </div>
 
                         <div>
@@ -105,7 +106,7 @@ const Navbar = () => {
                             </h1>
 
                             <p className="text-xs text-gray-400 -mt-1">
-                                Drive Your Journey
+                                Car Rental Platform
                             </p>
                         </div>
                     </Link>
@@ -147,7 +148,7 @@ const Navbar = () => {
                                         className="w-11 h-11 rounded-full border-2 border-orange-500 object-cover"
                                     />
 
-                                    <ChevronDown className="text-white w-4 h-4" />
+                                    <FiChevronDown className="text-white w-4 h-4" />
                                 </button>
 
                                 {profileOpen && (
@@ -188,9 +189,9 @@ const Navbar = () => {
                         className="lg:hidden text-white"
                     >
                         {open ? (
-                            <X className="w-7 h-7" />
+                            <FiX className="w-7 h-7" />
                         ) : (
-                            <Menu className="w-7 h-7" />
+                            <FiMenu className="w-7 h-7" />
                         )}
                     </button>
                 </div>

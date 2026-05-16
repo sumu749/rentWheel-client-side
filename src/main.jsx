@@ -1,12 +1,22 @@
+import React from "react";
 import ReactDOM from "react-dom/client";
 
-import AuthProvider from "./providers/AuthProvider";
+import { RouterProvider } from "react-router-dom";
+
+import "./index.css";
+
+import router from "./routes/Router";
+
+import AuthProvider from "./features/auth/context/AuthProvider";
+
 import { Toaster } from "react-hot-toast";
-import { RouterContextProvider } from "react-router";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-    <AuthProvider>
-        <RouterContextProvider></RouterContextProvider>
-        <Toaster position="top-center" />
-    </AuthProvider>,
+    <React.StrictMode>
+        <AuthProvider>
+            <RouterProvider router={router} />
+
+            <Toaster position="top-right" reverseOrder={false} />
+        </AuthProvider>
+    </React.StrictMode>,
 );
