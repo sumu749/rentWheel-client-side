@@ -15,6 +15,9 @@ import { getSingleCar } from "../services/carService";
 import BookingModal from "../../bookings/components/BookingModal";
 import useAuth from "../../auth/hooks/useAuth";
 
+const defaultCarImage =
+    "https://via.placeholder.com/1200x800?text=No+Car+Image";
+
 const CarDetails = () => {
     const { id } = useParams();
 
@@ -24,6 +27,10 @@ const CarDetails = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { user } = useAuth();
+
+    const handleCarImageError = (event) => {
+        event.target.src = defaultCarImage;
+    };
 
     useEffect(() => {
         const fetchCar = async () => {
@@ -71,8 +78,9 @@ const CarDetails = () => {
                         {/* Image */}
                         <div className="rounded-4xl overflow-hidden border border-white/10">
                             <img
-                                src={car.image}
+                                src={car.image || defaultCarImage}
                                 alt={car.carName}
+                                onError={handleCarImageError}
                                 className="w-full h-125 object-cover"
                             />
                         </div>

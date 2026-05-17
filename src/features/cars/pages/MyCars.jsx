@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { useContext, useEffect, useState } from "react";
 
 import toast from "react-hot-toast";
@@ -15,6 +14,21 @@ const MyCars = () => {
     const [cars, setCars] = useState([]);
 
     const [loading, setLoading] = useState(true);
+
+    const defaultCarImage =
+        "https://via.placeholder.com/800x500?text=No+Car+Image";
+
+    const escapeHtml = (value) =>
+        String(value || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+
+    const handleCarImageError = (event) => {
+        event.target.src = defaultCarImage;
+    };
 
     // fetch cars
     useEffect(() => {
@@ -84,7 +98,14 @@ const MyCars = () => {
                     id="carName"
                     class="swal2-input"
                     placeholder="Car Name"
-                    value="${car.carName}"
+                    value="${escapeHtml(car.carName)}"
+                />
+
+                <input
+                    id="image"
+                    class="swal2-input"
+                    placeholder="Car Image URL"
+                    value="${escapeHtml(car.image)}"
                 />
 
                 <input
@@ -92,14 +113,14 @@ const MyCars = () => {
                     type="number"
                     class="swal2-input"
                     placeholder="Price"
-                    value="${car.price}"
+                    value="${escapeHtml(car.price)}"
                 />
 
                 <input
                     id="location"
                     class="swal2-input"
                     placeholder="Location"
-                    value="${car.location}"
+                    value="${escapeHtml(car.location)}"
                 />
             `,
 
@@ -118,8 +139,14 @@ const MyCars = () => {
             color: "#ffffff",
 
             preConfirm: () => {
+                const imageInput = document
+                    .getElementById("image")
+                    .value.trim();
+
                 return {
                     carName: document.getElementById("carName").value,
+
+                    image: imageInput || car.image,
 
                     price: Number(document.getElementById("price").value),
 
@@ -130,18 +157,19 @@ const MyCars = () => {
 
         if (!formValues) return;
 
+        const updatedCar = {
+            ...car,
+            ...formValues,
+            image: formValues.image || car.image,
+        };
+
         try {
-            const res = await updateCar(car._id, formValues);
+            const res = await updateCar(car._id, updatedCar);
 
             if (res.modifiedCount > 0) {
                 setCars((prev) =>
                     prev.map((item) =>
-                        item._id === car._id
-                            ? {
-                                  ...item,
-                                  ...formValues,
-                              }
-                            : item,
+                        item._id === car._id ? updatedCar : item,
                     ),
                 );
 
@@ -213,8 +241,9 @@ const MyCars = () => {
                             >
                                 {/* Image */}
                                 <img
-                                    src={car.image}
+                                    src={car.image || defaultCarImage}
                                     alt={car.carName}
+                                    onError={handleCarImageError}
                                     className="w-full h-70 object-cover"
                                 />
 

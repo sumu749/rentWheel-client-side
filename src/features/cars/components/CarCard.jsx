@@ -2,16 +2,23 @@ import { Link } from "react-router-dom";
 
 import { FaGasPump, FaMapMarkerAlt, FaUsers } from "react-icons/fa";
 
+const defaultCarImage = "https://via.placeholder.com/800x500?text=No+Car+Image";
+
 const CarCard = ({ car }) => {
     const { _id, carName, image, category, location, price } = car;
+
+    const handleImageError = (event) => {
+        event.target.src = defaultCarImage;
+    };
 
     return (
         <div className="group bg-slate-900 border border-white/10 rounded-3xl overflow-hidden hover:border-orange-500/40 transition duration-500">
             {/* Image */}
             <div className="relative overflow-hidden">
                 <img
-                    src={image}
+                    src={image || defaultCarImage}
                     alt={carName}
+                    onError={handleImageError}
                     className="w-full h-[260px] object-cover group-hover:scale-110 transition duration-700"
                 />
 
