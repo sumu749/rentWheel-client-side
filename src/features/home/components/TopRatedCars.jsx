@@ -93,17 +93,17 @@ const TopRatedCars = () => {
                 >
                     {cars.map((car) => (
                         <SwiperSlide key={car._id}>
-                            <div className="group bg-slate-900 border border-white/10 rounded-[32px] overflow-hidden hover:border-orange-500/40 transition duration-500">
+                            <div className="group bg-slate-900 border border-white/10 rounded-4xl overflow-hidden hover:border-orange-500/40 transition duration-500">
                                 {/* Image */}
                                 <div className="relative overflow-hidden">
                                     <img
                                         src={car.image}
                                         alt={car.carName}
-                                        className="w-full h-[320px] object-cover group-hover:scale-110 transition duration-700"
+                                        className="w-full h-80 object-cover group-hover:scale-110 transition duration-700"
                                     />
 
                                     {/* Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                                    <div className="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent"></div>
 
                                     {/* Rating */}
                                     <div className="absolute top-5 left-5 bg-black/60 backdrop-blur-xl px-4 py-2 rounded-full flex items-center gap-2">
