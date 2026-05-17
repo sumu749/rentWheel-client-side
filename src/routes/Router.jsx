@@ -10,13 +10,13 @@ import BrowseCars from "../features/cars/pages/BrowseCars";
 import CarDetails from "../features/cars/pages/CarDetails";
 import AddCar from "../features/cars/pages/AddCar";
 import UpdateCar from "../features/cars/pages/UpdateCar";
-import MyListings from "../features/cars/pages/MyListings";
 
 import MyBookings from "../features/bookings/pages/MyBookings";
 
 import ErrorPage from "../features/error/ErrorPage";
 
 import PrivateRoute from "./PrivateRoute";
+import MyCars from "../features/cars/pages/MyCars";
 
 const router = createBrowserRouter([
     {
@@ -77,10 +77,10 @@ const router = createBrowserRouter([
             },
 
             {
-                path: "/my-listings",
+                path: "/my-cars",
                 element: (
                     <PrivateRoute>
-                        <MyListings />
+                        <MyCars />
                     </PrivateRoute>
                 ),
             },

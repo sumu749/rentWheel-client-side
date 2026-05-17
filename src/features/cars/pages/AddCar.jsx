@@ -1,12 +1,21 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+
+import { useNavigate } from "react-router-dom";
+
+import { FaCar, FaImage, FaMapMarkerAlt } from "react-icons/fa";
+
 import toast from "react-hot-toast";
 
-import useAuth from "../../auth/hooks/useAuth";
+import Swal from "sweetalert2";
+
+import { AuthContext } from "../../auth/context/AuthProvider";
 
 import { addCar } from "../services/carService";
 
 const AddCar = () => {
-    const { user } = useAuth();
+    const { user } = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
 
@@ -18,200 +27,240 @@ const AddCar = () => {
         const form = e.target;
 
         const carName = form.carName.value;
-        const description = form.description.value;
-        const category = form.category.value;
-        const price = form.price.value;
-        const location = form.location.value;
+
         const image = form.image.value;
 
-        const newCar = {
-            carName,
-            description,
-            category,
-            price: Number(price),
-            location,
-            image,
+        const category = form.category.value;
 
-            providerName: user?.displayName,
-            providerEmail: user?.email,
+        const price = Number(form.price.value);
+
+        const location = form.location.value;
+
+        const description = form.description.value;
+
+        const carData = {
+            carName,
+            image,
+            category,
+            price,
+            location,
+            description,
 
             status: "available",
+
+            providerName: user?.displayName,
+
+            providerEmail: user?.email,
 
             createdAt: new Date(),
         };
 
         try {
-            const result = await addCar(newCar);
+            const result = await addCar(carData);
 
             if (result.insertedId) {
-                toast.success("Car Added Successfully");
+                Swal.fire({
+                    title: "Car Added Successfully!",
+
+                    text: "Your car listing is now live.",
+
+                    icon: "success",
+
+                    confirmButtonColor: "#f97316",
+
+                    background: "#0f172a",
+
+                    color: "#ffffff",
+                });
 
                 form.reset();
+
+                navigate("/browse-cars");
             }
         } catch (error) {
-            toast.error(error.message);
+            console.log(error);
+
+            toast.error("Failed To Add Car");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="max-w-5xl mx-auto px-4 py-16">
-            <div className="bg-slate-900 border border-white/10 rounded-3xl p-8 md:p-12">
-                <div className="mb-10">
-                    <h1 className="text-4xl font-black text-white">
-                        Add A New Car
+        <section className="bg-black min-h-screen py-28">
+            <div className="max-w-4xl mx-auto px-4">
+                {/* Header */}
+                <div className="text-center max-w-2xl mx-auto mb-14">
+                    <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 text-orange-500 px-5 py-2 rounded-full mb-6">
+                        Add New Car
+                    </div>
+
+                    <h1 className="text-5xl md:text-6xl font-black text-white leading-tight">
+                        Publish Your
+                        <span className="block text-orange-500 mt-2">
+                            Luxury Vehicle
+                        </span>
                     </h1>
 
-                    <p className="text-gray-400 mt-3">
-                        List your car for rental and start earning.
+                    <p className="text-gray-400 mt-6 text-lg">
+                        Share your premium car with thousands of renters
+                        worldwide.
                     </p>
                 </div>
 
+                {/* Form */}
                 <form
                     onSubmit={handleAddCar}
-                    className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                    className="bg-slate-900 border border-white/10 rounded-4xl p-8 md:p-12 space-y-8"
                 >
                     {/* Car Name */}
                     <div>
-                        <label className="block mb-2 text-sm font-medium text-gray-300">
+                        <label className="block mb-3 text-gray-300 font-semibold">
                             Car Name
                         </label>
 
-                        <input
-                            type="text"
-                            name="carName"
-                            required
-                            placeholder="Tesla Model S"
-                            className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-orange-500"
-                        />
+                        <div className="relative">
+                            <FaCar className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" />
+
+                            <input
+                                type="text"
+                                name="carName"
+                                required
+                                placeholder="Tesla Model S"
+                                className="w-full bg-slate-800 border border-white/10 rounded-2xl pl-14 pr-5 py-4 text-white outline-none focus:border-orange-500"
+                            />
+                        </div>
                     </div>
 
-                    {/* Category */}
+                    {/* Image URL */}
                     <div>
-                        <label className="block mb-2 text-sm font-medium text-gray-300">
-                            Category
+                        <label className="block mb-3 text-gray-300 font-semibold">
+                            Car Image URL
                         </label>
 
-                        <select
-                            name="category"
-                            required
-                            className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-orange-500"
-                        >
-                            <option value="">Select Category</option>
+                        <div className="relative">
+                            <FaImage className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" />
 
-                            <option value="Sedan">Sedan</option>
-
-                            <option value="SUV">SUV</option>
-
-                            <option value="Luxury">Luxury</option>
-
-                            <option value="Electric">Electric</option>
-
-                            <option value="Hatchback">Hatchback</option>
-                        </select>
+                            <input
+                                type="text"
+                                name="image"
+                                required
+                                placeholder="https://image-url.com"
+                                className="w-full bg-slate-800 border border-white/10 rounded-2xl pl-14 pr-5 py-4 text-white outline-none focus:border-orange-500"
+                            />
+                        </div>
                     </div>
 
-                    {/* Price */}
-                    <div>
-                        <label className="block mb-2 text-sm font-medium text-gray-300">
-                            Rent Price Per Day
-                        </label>
+                    {/* Category + Price */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Category */}
+                        <div>
+                            <label className="block mb-3 text-gray-300 font-semibold">
+                                Category
+                            </label>
 
-                        <input
-                            type="number"
-                            name="price"
-                            required
-                            placeholder="120"
-                            className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-orange-500"
-                        />
+                            <select
+                                name="category"
+                                required
+                                className="w-full bg-slate-800 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-orange-500"
+                            >
+                                <option value="">Select Category</option>
+
+                                <option value="SUV">SUV</option>
+
+                                <option value="Luxury">Luxury</option>
+
+                                <option value="Sports">Sports</option>
+
+                                <option value="Electric">Electric</option>
+
+                                <option value="Sedan">Sedan</option>
+                            </select>
+                        </div>
+
+                        {/* Price */}
+                        <div>
+                            <label className="block mb-3 text-gray-300 font-semibold">
+                                Daily Price
+                            </label>
+
+                            <input
+                                type="number"
+                                name="price"
+                                required
+                                placeholder="$150"
+                                className="w-full bg-slate-800 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-orange-500"
+                            />
+                        </div>
                     </div>
 
                     {/* Location */}
                     <div>
-                        <label className="block mb-2 text-sm font-medium text-gray-300">
+                        <label className="block mb-3 text-gray-300 font-semibold">
                             Location
                         </label>
 
-                        <input
-                            type="text"
-                            name="location"
-                            required
-                            placeholder="Dhaka"
-                            className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-orange-500"
-                        />
-                    </div>
+                        <div className="relative">
+                            <FaMapMarkerAlt className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" />
 
-                    {/* Image */}
-                    <div className="md:col-span-2">
-                        <label className="block mb-2 text-sm font-medium text-gray-300">
-                            Image URL
-                        </label>
-
-                        <input
-                            type="text"
-                            name="image"
-                            required
-                            placeholder="https://image-url.com"
-                            className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-orange-500"
-                        />
+                            <input
+                                type="text"
+                                name="location"
+                                required
+                                placeholder="New York, USA"
+                                className="w-full bg-slate-800 border border-white/10 rounded-2xl pl-14 pr-5 py-4 text-white outline-none focus:border-orange-500"
+                            />
+                        </div>
                     </div>
 
                     {/* Description */}
-                    <div className="md:col-span-2">
-                        <label className="block mb-2 text-sm font-medium text-gray-300">
+                    <div>
+                        <label className="block mb-3 text-gray-300 font-semibold">
                             Description
                         </label>
 
                         <textarea
                             name="description"
-                            rows="5"
                             required
+                            rows="6"
                             placeholder="Write car details..."
-                            className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-orange-500"
+                            className="w-full bg-slate-800 border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-orange-500 resize-none"
                         ></textarea>
                     </div>
 
-                    {/* Provider Name */}
-                    <div>
-                        <label className="block mb-2 text-sm font-medium text-gray-300">
-                            Provider Name
-                        </label>
+                    {/* Provider Info */}
+                    <div className="bg-slate-800 border border-white/10 rounded-2xl p-6">
+                        <h3 className="text-white font-bold text-xl mb-5">
+                            Provider Information
+                        </h3>
 
-                        <input
-                            type="text"
-                            readOnly
-                            value={user?.displayName || ""}
-                            className="w-full bg-slate-700 border border-white/10 rounded-xl px-4 py-3 cursor-not-allowed"
-                        />
-                    </div>
+                        <div className="space-y-3">
+                            <p className="text-gray-300">
+                                <span className="text-orange-500 font-semibold">
+                                    Name:
+                                </span>{" "}
+                                {user?.displayName}
+                            </p>
 
-                    {/* Provider Email */}
-                    <div>
-                        <label className="block mb-2 text-sm font-medium text-gray-300">
-                            Provider Email
-                        </label>
-
-                        <input
-                            type="email"
-                            readOnly
-                            value={user?.email || ""}
-                            className="w-full bg-slate-700 border border-white/10 rounded-xl px-4 py-3 cursor-not-allowed"
-                        />
+                            <p className="text-gray-300">
+                                <span className="text-orange-500 font-semibold">
+                                    Email:
+                                </span>{" "}
+                                {user?.email}
+                            </p>
+                        </div>
                     </div>
 
                     {/* Submit */}
-                    <div className="md:col-span-2">
-                        <button
-                            disabled={loading}
-                            className="w-full bg-orange-500 hover:bg-orange-600 transition duration-300 text-white py-4 rounded-xl font-bold text-lg"
-                        >
-                            {loading ? "Adding Car..." : "Add Car"}
-                        </button>
-                    </div>
+                    <button
+                        disabled={loading}
+                        className="w-full bg-orange-500 hover:bg-orange-600 transition duration-300 text-white py-5 rounded-2xl font-black text-lg"
+                    >
+                        {loading ? "Adding Car..." : "Publish Car"}
+                    </button>
                 </form>
             </div>
-        </div>
+        </section>
     );
 };
 
