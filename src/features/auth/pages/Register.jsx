@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaCar, FaGoogle } from "react-icons/fa";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 import useAuth from "../hooks/useAuth";
 
@@ -25,7 +26,12 @@ const Register = () => {
         const password = form.password.value;
 
         if (photo && !/^https?:\/\//i.test(photo)) {
-            toast.error("Photo URL must begin with http:// or https://");
+            Swal.fire({
+                icon: "error",
+                title: "Invalid Photo URL",
+                text: "Photo URL must begin with http:// or https://",
+                confirmButtonColor: "#f97316",
+            });
             setLoading(false);
             return;
         }
@@ -34,9 +40,12 @@ const Register = () => {
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
 
         if (!passwordRegex.test(password)) {
-            toast.error(
-                "Password must contain uppercase, lowercase and minimum 6 characters",
-            );
+            Swal.fire({
+                icon: "error",
+                title: "Weak Password",
+                text: "Password must contain uppercase, lowercase and minimum 6 characters",
+                confirmButtonColor: "#f97316",
+            });
 
             setLoading(false);
 
@@ -60,9 +69,19 @@ const Register = () => {
 
             toast.success("Account Created Successfully");
 
+            // clear form on successful submission
+            form.reset();
+
             navigate("/");
         } catch (error) {
-            toast.error(error.message);
+            Swal.fire({
+                icon: "error",
+                title: "Registration Failed",
+                text: error.message,
+                confirmButtonColor: "#f97316",
+            });
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -74,7 +93,12 @@ const Register = () => {
 
             navigate("/");
         } catch (error) {
-            toast.error(error.message);
+            Swal.fire({
+                icon: "error",
+                title: "Google Login Failed",
+                text: error.message,
+                confirmButtonColor: "#f97316",
+            });
         }
     };
 
