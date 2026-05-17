@@ -31,7 +31,7 @@ const TopRatedCars = () => {
     }, []);
 
     return (
-        <section className="bg-slate-950 py-28 overflow-hidden">
+        <section className="bg-slate-950 pt-24 overflow-hidden">
             <div className="max-w-7xl mx-auto px-4">
                 {/* Header */}
                 <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-10 mb-16">
