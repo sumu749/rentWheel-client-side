@@ -12,6 +12,8 @@ import {
 } from "react-icons/fa";
 
 import { getSingleCar } from "../services/carService";
+import BookingModal from "../../bookings/components/BookingModal";
+import useAuth from "../../auth/hooks/useAuth";
 
 const CarDetails = () => {
     const { id } = useParams();
@@ -19,6 +21,9 @@ const CarDetails = () => {
     const [car, setCar] = useState(null);
 
     const [loading, setLoading] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchCar = async () => {
@@ -212,7 +217,10 @@ const CarDetails = () => {
 
                         {/* Booking */}
                         <div className="mt-12">
-                            <button className="w-full bg-orange-500 hover:bg-orange-600 transition duration-300 text-white py-5 rounded-2xl font-black text-xl flex items-center justify-center gap-4">
+                            <button
+                                onClick={() => setIsModalOpen(true)}
+                                className="w-full bg-orange-500 hover:bg-orange-600 transition duration-300 text-white py-5 rounded-2xl font-black text-xl flex items-center justify-center gap-4"
+                            >
                                 <FaCalendarAlt />
                                 Book This Car
                             </button>
@@ -220,6 +228,13 @@ const CarDetails = () => {
                     </div>
                 </div>
             </div>
+            {isModalOpen && (
+                <BookingModal
+                    car={car}
+                    user={user}
+                    closeModal={() => setIsModalOpen(false)}
+                />
+            )}
         </section>
     );
 };
