@@ -57,14 +57,14 @@ const Navbar = () => {
 
                     <li>
                         <NavLink
-                            to="/my-listings"
+                            to="/my-cars"
                             className={({ isActive }) =>
                                 isActive
                                     ? "text-orange-500 font-semibold"
                                     : "hover:text-orange-500 transition"
                             }
                         >
-                            My Listings
+                            My Cars
                         </NavLink>
                     </li>
 

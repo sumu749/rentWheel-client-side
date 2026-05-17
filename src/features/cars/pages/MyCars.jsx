@@ -174,7 +174,7 @@ const MyCars = () => {
     }
 
     return (
-        <section className="bg-black min-h-screen py-28">
+        <section className="bg-black min-h-screen pt-24">
             <div className="max-w-7xl mx-auto px-4">
                 {/* Header */}
                 <div className="text-center max-w-3xl mx-auto mb-16">
@@ -205,7 +205,7 @@ const MyCars = () => {
 
                 {/* Cars */}
                 {cars.length > 0 && (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {cars.map((car) => (
                             <div
                                 key={car._id}
