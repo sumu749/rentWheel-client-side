@@ -19,10 +19,16 @@ const Register = () => {
 
         const form = e.target;
 
-        const name = form.name.value;
-        const photo = form.photo.value;
+        const name = form.name.value.trim();
+        const photo = form.photo.value.trim();
         const email = form.email.value;
         const password = form.password.value;
+
+        if (photo && !/^https?:\/\//i.test(photo)) {
+            toast.error("Photo URL must begin with http:// or https://");
+            setLoading(false);
+            return;
+        }
 
         // password validation
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
@@ -42,10 +48,12 @@ const Register = () => {
             const result = await createUser(email, password);
 
             // update profile
-            await updateUser({
-                displayName: name,
-                photoURL: photo,
-            });
+            const profileData = { displayName: name };
+            if (photo) {
+                profileData.photoURL = photo;
+            }
+
+            await updateUser(profileData);
 
             // reload user
             await result.user.reload();
@@ -114,7 +122,6 @@ const Register = () => {
                         <input
                             type="text"
                             name="photo"
-                            required
                             placeholder="https://image-url.com"
                             className="w-full bg-slate-800 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-orange-500 text-white"
                         />

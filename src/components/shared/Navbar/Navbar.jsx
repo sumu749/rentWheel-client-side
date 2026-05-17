@@ -12,6 +12,14 @@ const Navbar = () => {
 
     const { user, logOut } = useAuth();
 
+    const defaultAvatar =
+        "https://api.dicebear.com/6.x/thumbs/svg?seed=rentwheel&radius=50";
+    const avatarSrc = user?.photoURL || defaultAvatar;
+
+    const handleAvatarError = (event) => {
+        event.target.src = defaultAvatar;
+    };
+
     const navLinks = (
         <>
             <li>
@@ -171,8 +179,9 @@ const Navbar = () => {
                                     className="flex items-center gap-2"
                                 >
                                     <img
-                                        src={user?.photoURL}
-                                        alt="user"
+                                        src={avatarSrc}
+                                        alt={user?.displayName || "User"}
+                                        onError={handleAvatarError}
                                         className="w-11 h-11 rounded-full border-2 border-orange-500 object-cover"
                                     />
 
@@ -183,8 +192,11 @@ const Navbar = () => {
                                     <div className="absolute right-0 mt-3 w-72 bg-white rounded-2xl shadow-2xl overflow-hidden">
                                         <div className="bg-[#0F172A] p-5 text-center">
                                             <img
-                                                src={user?.photoURL}
-                                                alt=""
+                                                src={avatarSrc}
+                                                alt={
+                                                    user?.displayName || "User"
+                                                }
+                                                onError={handleAvatarError}
                                                 className="w-20 h-20 rounded-full mx-auto border-4 border-orange-500 object-cover"
                                             />
 
