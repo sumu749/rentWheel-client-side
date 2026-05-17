@@ -63,7 +63,7 @@ const BrowseCars = () => {
     }, [cars, searchText, category, sortBy]);
 
     return (
-        <section className="bg-black min-h-screen py-28">
+        <section className="bg-black min-h-screen pt-24">
             <div className="max-w-7xl mx-auto px-4">
                 {/* Header */}
                 <div className="text-center max-w-3xl mx-auto mb-16">
