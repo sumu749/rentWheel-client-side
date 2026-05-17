@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 
 import toast from "react-hot-toast";
-
+import Swal from "sweetalert2";
 import { createBooking } from "../services/bookingService";
 
 const BookingModal = ({ car, user, closeModal }) => {
@@ -28,7 +28,17 @@ const BookingModal = ({ car, user, closeModal }) => {
             const result = await createBooking(bookingData);
 
             if (result.insertedId) {
-                toast.success("Booking Successful!");
+                Swal.fire({
+                    title: "Booking Confirmed!",
+                    text: "Your luxury car has been reserved successfully.",
+                    icon: "success",
+
+                    confirmButtonColor: "#f97316",
+
+                    background: "#0f172a",
+
+                    color: "#ffffff",
+                });
 
                 reset();
 

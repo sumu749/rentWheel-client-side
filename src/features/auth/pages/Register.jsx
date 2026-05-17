@@ -39,7 +39,7 @@ const Register = () => {
 
         try {
             // create user
-            await createUser(email, password);
+            const result = await createUser(email, password);
 
             // update profile
             await updateUser({
@@ -47,13 +47,14 @@ const Register = () => {
                 photoURL: photo,
             });
 
+            // reload user
+            await result.user.reload();
+
             toast.success("Account Created Successfully");
 
             navigate("/");
         } catch (error) {
             toast.error(error.message);
-        } finally {
-            setLoading(false);
         }
     };
 

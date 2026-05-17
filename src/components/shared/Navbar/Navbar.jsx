@@ -3,6 +3,8 @@ import { FiMenu, FiX, FiChevronDown } from "react-icons/fi";
 import { FaCar } from "react-icons/fa";
 import { useState } from "react";
 import useAuth from "../../../features/auth/hooks/useAuth";
+import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
@@ -83,10 +85,36 @@ const Navbar = () => {
         </>
     );
 
-    const handleLogout = () => {
-        logOut()
-            .then(() => {})
-            .catch((error) => console.log(error));
+    const handleLogout = async () => {
+        const result = await Swal.fire({
+            title: "Logout?",
+            text: "You will need to login again.",
+            icon: "warning",
+
+            showCancelButton: true,
+
+            confirmButtonColor: "#f97316",
+
+            cancelButtonColor: "#ef4444",
+
+            confirmButtonText: "Logout",
+
+            background: "#0f172a",
+
+            color: "#ffffff",
+        });
+
+        if (!result.isConfirmed) return;
+
+        try {
+            await logOut();
+
+            toast.success("Logged Out");
+        } catch (error) {
+            console.log(error);
+
+            toast.error("Logout Failed");
+        }
     };
 
     return (

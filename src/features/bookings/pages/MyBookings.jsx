@@ -73,7 +73,29 @@ const MyBookings = () => {
 
     // update booking
     const handleUpdateDate = async (id) => {
-        const newDate = prompt("Enter New Date (YYYY-MM-DD)");
+        const { value: newDate } = await Swal.fire({
+            title: "Modify Booking Date",
+
+            input: "date",
+
+            inputLabel: "Select a new booking date",
+
+            showCancelButton: true,
+
+            confirmButtonText: "Update Date",
+
+            confirmButtonColor: "#f97316",
+
+            cancelButtonColor: "#ef4444",
+
+            background: "#0f172a",
+
+            color: "#ffffff",
+
+            inputAttributes: {
+                min: new Date().toISOString().split("T")[0],
+            },
+        });
 
         if (!newDate) return;
 
@@ -92,7 +114,19 @@ const MyBookings = () => {
                     ),
                 );
 
-                toast.success("Booking Updated");
+                Swal.fire({
+                    title: "Booking Updated!",
+
+                    text: "Your booking date has been modified.",
+
+                    icon: "success",
+
+                    confirmButtonColor: "#f97316",
+
+                    background: "#0f172a",
+
+                    color: "#ffffff",
+                });
             }
         } catch (error) {
             console.log(error);
