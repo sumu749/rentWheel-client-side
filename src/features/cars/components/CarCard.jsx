@@ -5,7 +5,8 @@ import { FaGasPump, FaMapMarkerAlt, FaUsers } from "react-icons/fa";
 const defaultCarImage = "https://via.placeholder.com/800x500?text=No+Car+Image";
 
 const CarCard = ({ car }) => {
-    const { _id, carName, image, category, location, price } = car;
+    const { _id, carName, image, category, location, price, providerName } =
+        car;
 
     const handleImageError = (event) => {
         event.target.src = defaultCarImage;
@@ -19,16 +20,29 @@ const CarCard = ({ car }) => {
                     src={image || defaultCarImage}
                     alt={carName}
                     onError={handleImageError}
-                    className="w-full h-[260px] object-cover group-hover:scale-110 transition duration-700"
+                    className="w-full h-65 object-cover group-hover:scale-110 transition duration-700"
                 />
 
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent"></div>
 
                 {/* Category */}
                 <div className="absolute top-4 left-4">
                     <span className="bg-orange-500 text-white text-sm font-semibold px-4 py-2 rounded-full">
                         {category}
+                    </span>
+                </div>
+
+                {/* Availability Badge */}
+                <div className="absolute top-4 right-4 z-20">
+                    <span
+                        className={`px-4 py-2 rounded-full text-sm font-bold ${
+                            car.status === "available"
+                                ? "bg-green-500 text-white"
+                                : "bg-red-500 text-white"
+                        }`}
+                    >
+                        {car.status === "available" ? "Available" : "Booked"}
                     </span>
                 </div>
 
@@ -55,6 +69,15 @@ const CarCard = ({ car }) => {
 
                     <span>{location}</span>
                 </div>
+
+                {/* Provider */}
+                {providerName && (
+                    <div className="flex items-center gap-2 text-gray-400 mt-3">
+                        <FaUsers className="text-orange-500" />
+
+                        <span>Provider: {providerName}</span>
+                    </div>
+                )}
 
                 {/* Specs */}
                 <div className="flex items-center gap-6 mt-5 text-gray-300">

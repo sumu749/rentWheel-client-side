@@ -226,11 +226,19 @@ const CarDetails = () => {
                         {/* Booking */}
                         <div className="mt-12">
                             <button
+                                disabled={car.status === "unavailable"}
                                 onClick={() => setIsModalOpen(true)}
-                                className="w-full bg-orange-500 hover:bg-orange-600 transition duration-300 text-white py-5 rounded-2xl font-black text-xl flex items-center justify-center gap-4"
+                                className={`w-full py-5 rounded-2xl font-black text-xl flex items-center justify-center gap-4 transition duration-300 ${
+                                    car.status === "unavailable"
+                                        ? "bg-gray-600 cursor-not-allowed text-gray-300"
+                                        : "bg-orange-500 hover:bg-orange-600 text-white"
+                                }`}
                             >
                                 <FaCalendarAlt />
-                                Book This Car
+
+                                {car.status === "unavailable"
+                                    ? "Already Booked"
+                                    : "Book This Car"}
                             </button>
                         </div>
                     </div>
@@ -241,6 +249,9 @@ const CarDetails = () => {
                     car={car}
                     user={user}
                     closeModal={() => setIsModalOpen(false)}
+                    onBookingSuccess={() =>
+                        setCar((prev) => ({ ...prev, status: "unavailable" }))
+                    }
                 />
             )}
         </section>
