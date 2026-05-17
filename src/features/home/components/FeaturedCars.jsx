@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import CarCard from "../../cars/components/CarCard";
 
 import { getAllCars } from "../../cars/services/carService";
+import LoadingSpinner from "../../../components/shared/LoadingSpinner/LoadingSpinner";
 
 const FeaturedCars = () => {
     const [cars, setCars] = useState([]);
@@ -29,9 +30,7 @@ const FeaturedCars = () => {
         return (
             <section className="bg-black py-24">
                 <div className="max-w-7xl mx-auto px-4">
-                    <div className="flex justify-center items-center">
-                        <span className="loading loading-spinner loading-lg text-orange-500"></span>
-                    </div>
+                    <LoadingSpinner />
                 </div>
             </section>
         );

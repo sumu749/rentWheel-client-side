@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../auth/context/AuthProvider";
 
 import { deleteCar, getMyCars, updateCar } from "../services/carService";
+import LoadingSpinner from "../../../components/shared/LoadingSpinner/LoadingSpinner";
 
 const MyCars = () => {
     const { user } = useContext(AuthContext);
@@ -194,13 +195,8 @@ const MyCars = () => {
 
     // loading
     if (loading) {
-        return (
-            <section className="bg-black min-h-screen flex justify-center items-center">
-                <span className="loading loading-spinner loading-lg text-orange-500"></span>
-            </section>
-        );
+        return <LoadingSpinner />;
     }
-
     return (
         <section className="bg-black min-h-screen pt-24">
             <div className="max-w-7xl mx-auto px-4">

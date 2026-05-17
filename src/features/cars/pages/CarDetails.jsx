@@ -14,6 +14,7 @@ import {
 import { getSingleCar } from "../services/carService";
 import BookingModal from "../../bookings/components/BookingModal";
 import useAuth from "../../auth/hooks/useAuth";
+import LoadingSpinner from "../../../components/shared/LoadingSpinner/LoadingSpinner";
 
 const defaultCarImage =
     "https://via.placeholder.com/1200x800?text=No+Car+Image";
@@ -50,11 +51,7 @@ const CarDetails = () => {
 
     // loading
     if (loading) {
-        return (
-            <section className="bg-black min-h-screen flex justify-center items-center">
-                <span className="loading loading-spinner loading-lg text-orange-500"></span>
-            </section>
-        );
+        return <LoadingSpinner />;
     }
 
     // no car found

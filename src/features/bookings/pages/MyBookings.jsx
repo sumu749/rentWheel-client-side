@@ -11,6 +11,7 @@ import {
     getMyBookings,
     updateBookingDate,
 } from "../services/bookingService";
+import LoadingSpinner from "../../../components/shared/LoadingSpinner/LoadingSpinner";
 
 const MyBookings = () => {
     const { user } = useContext(AuthContext);
@@ -137,11 +138,7 @@ const MyBookings = () => {
 
     // loading
     if (loading) {
-        return (
-            <section className="bg-black min-h-screen flex justify-center items-center">
-                <span className="loading loading-spinner loading-lg text-orange-500"></span>
-            </section>
-        );
+        return <LoadingSpinner />;
     }
 
     return (

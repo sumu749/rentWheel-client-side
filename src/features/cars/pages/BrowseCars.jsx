@@ -6,6 +6,7 @@ import { FaSearch, FaSlidersH, FaDollarSign } from "react-icons/fa";
 import CarCard from "../components/CarCard";
 
 import { getAllCars } from "../services/carService";
+import LoadingSpinner from "../../../components/shared/LoadingSpinner/LoadingSpinner";
 
 const BrowseCars = () => {
     const [cars, setCars] = useState([]);
@@ -176,7 +177,7 @@ const BrowseCars = () => {
                 {/* Loading */}
                 {loading && (
                     <div className="flex justify-center py-20">
-                        <span className="loading loading-spinner loading-lg text-orange-500"></span>
+                        <LoadingSpinner />
                     </div>
                 )}
 
