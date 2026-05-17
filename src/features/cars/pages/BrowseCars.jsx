@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
-import { FaSearch, FaSlidersH } from "react-icons/fa";
+import { FaSearch, FaSlidersH, FaDollarSign } from "react-icons/fa";
 
 import CarCard from "../components/CarCard";
 
@@ -11,9 +12,15 @@ const BrowseCars = () => {
 
     const [loading, setLoading] = useState(true);
 
-    const [searchText, setSearchText] = useState("");
+    const [searchParams] = useSearchParams();
 
-    const [category, setCategory] = useState("All");
+    const initialSearchText = searchParams.get("searchText") || "";
+    const initialCategory = searchParams.get("category") || "All";
+    const initialMaxPrice = searchParams.get("maxPrice") || "";
+
+    const [searchText, setSearchText] = useState(initialSearchText);
+    const [category, setCategory] = useState(initialCategory);
+    const [maxPrice, setMaxPrice] = useState(initialMaxPrice);
 
     const [sortBy, setSortBy] = useState("");
 
@@ -38,11 +45,25 @@ const BrowseCars = () => {
     const filteredCars = useMemo(() => {
         let filtered = [...cars];
 
-        // search
+        // search by name or category
         if (searchText) {
-            filtered = filtered.filter((car) =>
-                car.carName.toLowerCase().includes(searchText.toLowerCase()),
-            );
+            filtered = filtered.filter((car) => {
+                const lowerSearchText = searchText.toLowerCase();
+
+                return (
+                    car.carName.toLowerCase().includes(lowerSearchText) ||
+                    car.category.toLowerCase().includes(lowerSearchText)
+                );
+            });
+        }
+
+        // max price
+        if (maxPrice) {
+            const max = Number(maxPrice);
+
+            if (!Number.isNaN(max)) {
+                filtered = filtered.filter((car) => car.price <= max);
+            }
         }
 
         // category
@@ -60,7 +81,7 @@ const BrowseCars = () => {
         }
 
         return filtered;
-    }, [cars, searchText, category, sortBy]);
+    }, [cars, searchText, category, maxPrice, sortBy]);
 
     return (
         <section className="bg-black min-h-screen pt-24">
@@ -86,7 +107,7 @@ const BrowseCars = () => {
 
                 {/* Filters */}
                 <div className="bg-slate-900 border border-white/10 rounded-4xl p-6 mb-14">
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
+                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
                         {/* Search */}
                         <div className="relative lg:col-span-2">
                             <FaSearch className="absolute top-1/2 -translate-y-1/2 left-5 text-gray-400" />
@@ -118,6 +139,20 @@ const BrowseCars = () => {
 
                             <option value="Sedan">Sedan</option>
                         </select>
+
+                        {/* Max Price */}
+                        <div className="relative">
+                            <FaDollarSign className="absolute top-1/2 -translate-y-1/2 left-5 text-gray-400" />
+
+                            <input
+                                type="number"
+                                value={maxPrice}
+                                onChange={(e) => setMaxPrice(e.target.value)}
+                                placeholder="Max price"
+                                min="0"
+                                className="w-full bg-slate-800 border border-white/10 rounded-2xl pl-14 pr-5 py-4 text-white outline-none focus:border-orange-500"
+                            />
+                        </div>
 
                         {/* Sort */}
                         <div className="relative">
