@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import toast from "react-hot-toast";
 
@@ -279,11 +280,18 @@ const MyCars = () => {
 
                                     {/* Actions */}
                                     <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                                        <Link
+                                            to={`/update-car/${car._id}`}
+                                            className="flex-1 text-center bg-orange-500 hover:bg-orange-600 transition duration-300 text-white py-4 rounded-2xl font-bold"
+                                        >
+                                            Edit
+                                        </Link>
+
                                         <button
                                             onClick={() => handleUpdate(car)}
-                                            className="flex-1 bg-orange-500 hover:bg-orange-600 transition duration-300 text-white py-4 rounded-2xl font-bold"
+                                            className="flex-1 bg-slate-700 hover:bg-slate-600 transition duration-300 text-white py-4 rounded-2xl font-bold"
                                         >
-                                            Update
+                                            Quick Edit
                                         </button>
 
                                         <button
