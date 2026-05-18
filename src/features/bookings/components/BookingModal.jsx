@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import { createBooking } from "../services/bookingService";
-import { updateCar } from "../../cars/services/carService";
 
 const BookingModal = ({ car, user, closeModal, onBookingSuccess }) => {
     const { register, handleSubmit, reset } = useForm();
@@ -29,12 +28,6 @@ const BookingModal = ({ car, user, closeModal, onBookingSuccess }) => {
             const result = await createBooking(bookingData);
 
             if (result.insertedId) {
-                const { _id, ...carWithoutId } = car;
-                await updateCar(_id, {
-                    ...carWithoutId,
-                    status: "unavailable",
-                });
-
                 Swal.fire({
                     title: "Booking Confirmed!",
                     text: "Your luxury car has been reserved successfully.",
