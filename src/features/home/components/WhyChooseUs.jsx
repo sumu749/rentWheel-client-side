@@ -5,7 +5,9 @@ import {
     FaWallet,
     FaClock,
     FaMapMarkedAlt,
+    FaArrowRight,
 } from "react-icons/fa";
+import { Link } from "react-router";
 
 const features = [
     {
@@ -127,9 +129,14 @@ const WhyChooseUs = () => {
                         </div>
 
                         {/* Button */}
-                        <button className="bg-black hover:bg-slate-900 transition duration-300 text-white px-10 py-5 rounded-2xl font-bold text-lg whitespace-nowrap">
+
+                        <Link
+                            to="/browse-cars"
+                            className="bg-black hover:bg-slate-900 transition duration-300 text-white px-10 py-5 rounded-2xl font-bold text-lg flex items-center gap-3"
+                        >
                             Browse Cars
-                        </button>
+                            <FaArrowRight />
+                        </Link>
                     </div>
                 </div>
             </div>
