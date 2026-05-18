@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 import { FaGasPump, FaMapMarkerAlt, FaUsers } from "react-icons/fa";
@@ -13,7 +14,14 @@ const CarCard = ({ car }) => {
     };
 
     return (
-        <div className="group bg-slate-900 border border-white/10 rounded-3xl overflow-hidden hover:border-orange-500/40 transition duration-500">
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -8, scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="group bg-slate-900 border border-white/10 rounded-3xl overflow-hidden hover:border-orange-500/40 transition duration-500"
+        >
             {/* Image */}
             <div className="relative overflow-hidden">
                 <img
@@ -102,7 +110,7 @@ const CarCard = ({ car }) => {
                     Book Now
                 </Link>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

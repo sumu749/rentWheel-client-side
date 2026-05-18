@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+import { Typewriter } from "react-simple-typewriter";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { EffectFade, Navigation, Pagination, Autoplay } from "swiper/modules";
@@ -85,7 +87,12 @@ const HeroBanner = () => {
                             <div className="absolute inset-0 bg-linear-to-r from-black via-black/50 to-black/20"></div>
 
                             {/* Content */}
-                            <div className="relative z-10 max-w-7xl mx-auto px-4 h-full flex flex-col justify-center">
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, ease: "easeOut" }}
+                                className="relative z-10 max-w-7xl mx-auto px-4 h-full flex flex-col justify-center"
+                            >
                                 <div className="max-w-3xl pt-24">
                                     {/* Small Badge */}
                                     <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/30 text-orange-400 px-5 py-2 rounded-full mb-8 backdrop-blur-md">
@@ -99,12 +106,26 @@ const HeroBanner = () => {
                                     </h1>
 
                                     <h2 className="text-2xl md:text-4xl text-orange-500 mt-3 font-light italic">
-                                        {slide.subtitle}
+                                        <Typewriter
+                                            words={[slide.subtitle]}
+                                            cursor
+                                            cursorStyle="|"
+                                            typeSpeed={80}
+                                            deleteSpeed={40}
+                                            delaySpeed={4000}
+                                        />
                                     </h2>
 
                                     {/* Description */}
                                     <p className="mt-8 text-xl text-gray-300 max-w-2xl leading-relaxed">
-                                        {slide.description}
+                                        <Typewriter
+                                            words={[slide.description]}
+                                            cursor
+                                            cursorStyle="|"
+                                            typeSpeed={50}
+                                            deleteSpeed={20}
+                                            delaySpeed={6000}
+                                        />
                                     </p>
 
                                     {/* Buttons */}
@@ -119,7 +140,7 @@ const HeroBanner = () => {
                                         </button>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         </div>
                     </SwiperSlide>
                 ))}
