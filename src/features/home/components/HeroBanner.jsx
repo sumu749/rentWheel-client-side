@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { EffectFade, Navigation, Pagination, Autoplay } from "swiper/modules";
@@ -130,14 +131,20 @@ const HeroBanner = () => {
 
                                     {/* Buttons */}
                                     <div className="flex flex-wrap gap-5 mt-10">
-                                        <button className="bg-orange-500 hover:bg-orange-600 transition duration-300 text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center gap-3">
+                                        <Link
+                                            to="/browse-cars"
+                                            className="bg-orange-500 hover:bg-orange-600 transition duration-300 text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center gap-3"
+                                        >
                                             Browse Cars
                                             <FaArrowRight />
-                                        </button>
+                                        </Link>
 
-                                        <button className="border border-white/20 hover:border-orange-500 hover:bg-orange-500/10 transition duration-300 text-white px-8 py-4 rounded-xl font-bold text-lg">
+                                        <Link
+                                            to="/add-car"
+                                            className="border border-white/20 hover:border-orange-500 hover:bg-orange-500/10 transition duration-300 text-white px-8 py-4 rounded-xl font-bold text-lg"
+                                        >
                                             Add Your Car
-                                        </button>
+                                        </Link>
                                     </div>
                                 </div>
                             </motion.div>
