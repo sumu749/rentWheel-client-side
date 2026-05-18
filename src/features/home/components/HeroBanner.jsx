@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
 import { Link } from "react-router-dom";
@@ -22,7 +23,7 @@ import "swiper/css/pagination";
 
 const slides = [
     {
-        image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        image: "https://images.unsplash.com/photo-1655195195553-1672be1d29bb?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 
         title: "Feel the Power",
 
@@ -32,7 +33,7 @@ const slides = [
     },
 
     {
-        image: "https://images.unsplash.com/photo-1603189617530-6d32306f57c5?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 
         title: "Luxury Redefined",
 
@@ -50,9 +51,20 @@ const slides = [
 
         description: "Make every journey an unforgettable adventure.",
     },
+    {
+        image: "https://images.unsplash.com/photo-1632707494078-165805600ffc?q=80&w=1149&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+
+        title: "Elegance in Motion",
+
+        subtitle: "Smooth Comfort",
+
+        description: "Discover premium rides crafted for modern journeys.",
+    },
 ];
 
 const HeroBanner = () => {
+    const [activeSlide, setActiveSlide] = useState(0);
+
     return (
         <section className="relative bg-black overflow-hidden -mb-4">
             <Swiper
@@ -69,6 +81,8 @@ const HeroBanner = () => {
                 speed={1200}
                 loop={true}
                 className="h-200"
+                onSwiper={(swiper) => setActiveSlide(swiper.realIndex)}
+                onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
             >
                 {slides.map((slide, index) => (
                     <SwiperSlide key={index}>
@@ -107,26 +121,36 @@ const HeroBanner = () => {
                                     </h1>
 
                                     <h2 className="text-2xl md:text-4xl text-orange-500 mt-3 font-light italic">
-                                        <Typewriter
-                                            words={[slide.subtitle]}
-                                            cursor
-                                            cursorStyle="|"
-                                            typeSpeed={80}
-                                            deleteSpeed={40}
-                                            delaySpeed={4000}
-                                        />
+                                        {activeSlide === index ? (
+                                            <Typewriter
+                                                key={`subtitle-${index}-${activeSlide}`}
+                                                words={[slide.subtitle]}
+                                                cursor
+                                                cursorStyle="|"
+                                                typeSpeed={80}
+                                                deleteSpeed={40}
+                                                delaySpeed={4000}
+                                            />
+                                        ) : (
+                                            slide.subtitle
+                                        )}
                                     </h2>
 
                                     {/* Description */}
                                     <p className="mt-8 text-xl text-gray-300 max-w-2xl leading-relaxed">
-                                        <Typewriter
-                                            words={[slide.description]}
-                                            cursor
-                                            cursorStyle="|"
-                                            typeSpeed={50}
-                                            deleteSpeed={20}
-                                            delaySpeed={6000}
-                                        />
+                                        {activeSlide === index ? (
+                                            <Typewriter
+                                                key={`description-${index}-${activeSlide}`}
+                                                words={[slide.description]}
+                                                cursor
+                                                cursorStyle="|"
+                                                typeSpeed={50}
+                                                deleteSpeed={20}
+                                                delaySpeed={6000}
+                                            />
+                                        ) : (
+                                            slide.description
+                                        )}
                                     </p>
 
                                     {/* Buttons */}

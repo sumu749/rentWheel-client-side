@@ -15,6 +15,7 @@ import "swiper/css/pagination";
 
 const TopRatedCars = () => {
     const [cars, setCars] = useState([]);
+    const canLoop = cars.length >= 4;
 
     useEffect(() => {
         const fetchCars = async () => {
@@ -62,107 +63,114 @@ const TopRatedCars = () => {
                         <FaArrowRight />
                     </Link>
                 </div>
-
                 {/* Slider */}
-                <Swiper
-                    modules={[Autoplay, Pagination]}
-                    slidesPerView={1}
-                    spaceBetween={24}
-                    loop={true}
-                    autoplay={{
-                        delay: 3500,
-                        disableOnInteraction: false,
-                    }}
-                    pagination={{
-                        clickable: true,
-                    }}
-                    breakpoints={{
-                        640: {
-                            slidesPerView: 1,
-                        },
+                {cars.length > 0 ? (
+                    <Swiper
+                        modules={[Autoplay, Pagination]}
+                        slidesPerView={1}
+                        spaceBetween={24}
+                        loop={canLoop}
+                        autoplay={{
+                            delay: 3500,
+                            disableOnInteraction: false,
+                        }}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        breakpoints={{
+                            640: {
+                                slidesPerView: 1,
+                            },
 
-                        768: {
-                            slidesPerView: 2,
-                        },
+                            768: {
+                                slidesPerView: 2,
+                            },
 
-                        1280: {
-                            slidesPerView: 3,
-                        },
-                    }}
-                    className="pb-14"
-                >
-                    {cars.map((car) => (
-                        <SwiperSlide key={car._id}>
-                            <div className="group bg-slate-900 border border-white/10 rounded-4xl overflow-hidden hover:border-orange-500/40 transition duration-500">
-                                {/* Image */}
-                                <div className="relative overflow-hidden">
-                                    <img
-                                        src={car.image}
-                                        alt={car.carName}
-                                        className="w-full h-80 object-cover group-hover:scale-110 transition duration-700"
-                                    />
+                            1280: {
+                                slidesPerView: 3,
+                            },
+                        }}
+                        className="pb-14"
+                    >
+                        {cars.map((car) => (
+                            <SwiperSlide key={car._id}>
+                                <div className="group bg-slate-900 border border-white/10 rounded-4xl overflow-hidden hover:border-orange-500/40 transition duration-500">
+                                    {/* Image */}
+                                    <div className="relative overflow-hidden">
+                                        <img
+                                            src={car.image}
+                                            alt={car.carName}
+                                            className="w-full h-80 object-cover group-hover:scale-110 transition duration-700"
+                                        />
 
-                                    {/* Overlay */}
-                                    <div className="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent"></div>
+                                        {/* Overlay */}
+                                        <div className="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent"></div>
 
-                                    {/* Rating */}
-                                    <div className="absolute top-5 left-5 bg-black/60 backdrop-blur-xl px-4 py-2 rounded-full flex items-center gap-2">
-                                        <FaStar className="text-orange-500" />
+                                        {/* Rating */}
+                                        <div className="absolute top-5 left-5 bg-black/60 backdrop-blur-xl px-4 py-2 rounded-full flex items-center gap-2">
+                                            <FaStar className="text-orange-500" />
 
-                                        <span className="text-white font-semibold">
-                                            4.9
-                                        </span>
+                                            <span className="text-white font-semibold">
+                                                4.9
+                                            </span>
+                                        </div>
+
+                                        {/* Price */}
+                                        <div className="absolute bottom-5 right-5 bg-orange-500 text-white px-5 py-3 rounded-2xl">
+                                            <span className="text-2xl font-black">
+                                                ${car.price}
+                                            </span>
+
+                                            <span className="text-sm">
+                                                /day
+                                            </span>
+                                        </div>
                                     </div>
 
-                                    {/* Price */}
-                                    <div className="absolute bottom-5 right-5 bg-orange-500 text-white px-5 py-3 rounded-2xl">
-                                        <span className="text-2xl font-black">
-                                            ${car.price}
-                                        </span>
+                                    {/* Content */}
+                                    <div className="p-7">
+                                        {/* Category */}
+                                        <div className="inline-flex items-center gap-2 bg-orange-500/10 text-orange-500 px-4 py-2 rounded-full text-sm font-semibold mb-5">
+                                            {car.category}
+                                        </div>
 
-                                        <span className="text-sm">/day</span>
+                                        {/* Title */}
+                                        <h3 className="text-3xl font-black text-white group-hover:text-orange-500 transition duration-300">
+                                            {car.carName}
+                                        </h3>
+
+                                        {/* Location */}
+                                        <div className="flex items-center gap-3 text-gray-400 mt-4">
+                                            <FaMapMarkerAlt className="text-orange-500" />
+
+                                            <span>{car.location}</span>
+                                        </div>
+
+                                        {/* Description */}
+                                        <p className="text-gray-400 leading-relaxed mt-5">
+                                            Premium luxury vehicle with high
+                                            performance, comfort and
+                                            unforgettable driving experience.
+                                        </p>
+
+                                        {/* Button */}
+                                        <Link
+                                            to={`/cars/${car._id}`}
+                                            className="mt-7 inline-flex items-center gap-3 text-orange-500 font-bold hover:gap-5 transition-all duration-300"
+                                        >
+                                            Book This Car
+                                            <FaArrowRight />
+                                        </Link>
                                     </div>
                                 </div>
-
-                                {/* Content */}
-                                <div className="p-7">
-                                    {/* Category */}
-                                    <div className="inline-flex items-center gap-2 bg-orange-500/10 text-orange-500 px-4 py-2 rounded-full text-sm font-semibold mb-5">
-                                        {car.category}
-                                    </div>
-
-                                    {/* Title */}
-                                    <h3 className="text-3xl font-black text-white group-hover:text-orange-500 transition duration-300">
-                                        {car.carName}
-                                    </h3>
-
-                                    {/* Location */}
-                                    <div className="flex items-center gap-3 text-gray-400 mt-4">
-                                        <FaMapMarkerAlt className="text-orange-500" />
-
-                                        <span>{car.location}</span>
-                                    </div>
-
-                                    {/* Description */}
-                                    <p className="text-gray-400 leading-relaxed mt-5">
-                                        Premium luxury vehicle with high
-                                        performance, comfort and unforgettable
-                                        driving experience.
-                                    </p>
-
-                                    {/* Button */}
-                                    <Link
-                                        to={`/cars/${car._id}`}
-                                        className="mt-7 inline-flex items-center gap-3 text-orange-500 font-bold hover:gap-5 transition-all duration-300"
-                                    >
-                                        Book This Car
-                                        <FaArrowRight />
-                                    </Link>
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                ) : (
+                    <div className="pb-14 text-center text-white/70">
+                        Loading top-rated cars...
+                    </div>
+                )}{" "}
             </div>
         </section>
     );
